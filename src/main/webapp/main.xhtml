@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<ui:include src="templates"/>
+<h:head>
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <title>Web Lab #3</title>
+    <h:outputScript library="js" name="jquery-3.6.0.min.js"/>
+    <h:outputScript library="js" name="main.js"/>
+    <h:outputScript library="js" name="jquery.svg.js"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/jquery.svg.css"/>
+</h:head>
+<h:body>
+<table id="grid" width="100%">
+    <tr class="header">
+        <th class="header-cell">
+            Bogatov Aleksandr Sergeevich
+        </th>
+        <th class="header-cell">
+            Group: P3233
+        </th>
+        <th class="header-cell">
+            Variant: 33673
+        </th>
+    </tr>
+    <tr class="main-content">
+        <td width="50%" id="graph-cell" class="graph">
+            <ui:include src="templates/graph.html"/>
+        </td>
+        <td width="40%" id="choice-cell" class="choice">
+            <h:form method="post" id="input-form" action="/Lab2-1.0-SNAPSHOT">
+                <table>
+                    <tr>
+                        <td>
+                            <fieldset>
+                                <p id="error-info">Enter your values or click on the graph</p>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="input-y">
+                            <fieldset id="y-field">
+                                <h:outputLabel for="y" value="Input Y value"/>
+                                <h:inputText maxlength="10" size="22" type="text" id="y" name="y"
+                                       placeholder="Y must be in the range of (-3;3)" value="#{resultBean.newResult.y}"/><br/>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="input-x">
+                            <fieldset id="x-field">
+                                <p:outputLabel for="@next" value="Step Factor"/>
+                                <p:spinner id="x" value="#{resultBean.newResult.x}" stepFactor="-1"/>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="input-r">
+                            <fieldset id="r-field">
+                                <label>Select R value</label>
+                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="1" name="r"/>
+                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="2" name="r"/>
+                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="3" name="r"/>
+                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="4" name="r"/>
+                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="5" name="r"/>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fieldset>
+                                <table class="comm-button-table">
+                                    <tr>
+                                        <td colspan="1">
+<!--                                            <input id="send" class="input-button" type="submit" value="Submit"/>-->
+                                            <p:commandButton type="button" value="Submit" actionListener="#{resultBean.addResult}"/>
+                                            <input type="hidden" value="" name="canvas-x" id="x-hid"/>
+                                            <input type="hidden" value="" name="canvas-y" id="y-hid"/>
+                                        </td>
+                                        <td colspan="1">
+                                            <input id="res" class="input-button" type="reset" value="Reset"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </td>
+        <td width="10%" id="request-cell" class="request-button-table">
+            <form method="post" action="/Lab2-1.0-SNAPSHOT">
+                <p:commandButton type="button" value="Clean table" actionListener="#{resultBean.eraseResults}"/>
+<!--                <input type="submit" class="input-button" id="clean-button" value="Clean table"/>-->
+                <input type="hidden" value="" name="clean-indicator" id="c-id"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+<!--            <table width="100%" id="result-table" class="result-table">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th>X</th>-->
+<!--                    <th>Y</th>-->
+<!--                    <th>R</th>-->
+<!--                    <th>Current time</th>-->
+<!--                    <th>Execution time</th>-->
+<!--                    <th>Hit detect</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--            </table>-->
+            <h:dataTable id="result-table" class="result-table" value="#{resultBean.results}">
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    <h:outputText value="#{resultBean.newResult.x}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    <h:outputText value="#{resultBean.newResult.y}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    <h:outputText value="#{resultBean.newResult.r}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Time at execution</f:facet>
+                    <h:outputText value="#{resultBean.newResult.currTime}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Execution time</f:facet>
+                    <h:outputText value="#{resultBean.newResult.executionTime}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Hit result</f:facet>
+                    <h:outputText value="#{resultBean.newResult.hit}"/>
+                </h:column>
+            </h:dataTable>>
+        </td>
+    </tr>
+</table>
+</h:body>
+</html>

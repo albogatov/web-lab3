@@ -1,13 +1,31 @@
 package data;
 
+import javax.persistence.*;
+import java.io.Serializable;
 
-public class Result {
+@Entity
+@Table(name="RESULT_TBL")
+public class Result implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="RESULT_ID")
+    private long id;
+    @Column(name="RESULT_X")
     private Double x;
+    @Column(name="RESULT_Y")
     private Double y;
+    @Column(name="RESULT_R")
     private Double r;
+    @Column(name="RESULT_CUR")
     private String currTime;
+    @Column(name="RESULT_EXE")
     private Double executionTime;
+    @Column(name="RESULT_HIT")
     private Boolean hit;
+
+    public Result() {
+
+    }
 
     public double getX() {
         return x;
@@ -88,13 +106,4 @@ public class Result {
         }
         return false;
     }
-
-//    public Result(double x, double y, double r, String currTime, double executionTime, boolean hit) {
-//        this.x = x;
-//        this.y = y;
-//        this.r = r;
-//        this.currTime = currTime;
-//        this.executionTime = executionTime;
-//        this.hit = hit;
-//    }
 }
