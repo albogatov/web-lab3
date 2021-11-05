@@ -63,11 +63,12 @@
                         <td class="input-r">
                             <fieldset id="r-field">
                                 <label>Select R value</label>
-                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="1" name="r"/>
-                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="2" name="r"/>
-                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="3" name="r"/>
-                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="4" name="r"/>
-                                <p:commandLink type="button" actionListener="#{resultBean.newResult.r}" value="5" name="r"/>
+                                <p:commandLink type="button" value="1" name="r"/>
+                                <p:commandLink type="button" value="2" name="r"/>
+                                <p:commandLink type="button" value="3" name="r"/>
+                                <p:commandLink type="button" value="4" name="r"/>
+                                <p:commandLink type="button" value="5" name="r"/>
+                                <h:inputHidden value="#{resultBean.newResult.r}" id="true-r"/>
                             </fieldset>
                         </td>
                     </tr>
@@ -78,7 +79,7 @@
                                     <tr>
                                         <td colspan="1">
 <!--                                            <input id="send" class="input-button" type="submit" value="Submit"/>-->
-                                            <p:commandButton type="button" value="Submit" actionListener="#{resultBean.addResult}"/>
+                                            <p:commandButton type="button" class="input-button" value="Submit" actionListener="#{result.addResult}"/>
                                             <input type="hidden" value="" name="canvas-x" id="x-hid"/>
                                             <input type="hidden" value="" name="canvas-y" id="y-hid"/>
                                         </td>
