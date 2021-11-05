@@ -10,13 +10,15 @@ import utils.HibernateUtility;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ResultBean implements Serializable {
     private Result newResult = new Result();
-
+    private String persistenceUnitName = "result";
     private List<Result> results = new ArrayList<Result>();
 
     private SessionFactory hibernateSessionFactory;
@@ -28,6 +30,21 @@ public class ResultBean implements Serializable {
         results = new ArrayList<Result>();
         hibernateSessionFactory = HibernateUtility.getSessionFactory();
         session = hibernateSessionFactory.openSession();
+        transaction = session.getTransaction();
+        loadResults();
+    }
+
+    public void loadResults() {
+        try {
+            transaction.begin();
+            results = (ArrayList<Result>) session.createSQLQuery("SELECT * FROM RESULT_TBL").addEntity(Result.class).list();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 
     public Result getNewResult() {
@@ -46,15 +63,33 @@ public class ResultBean implements Serializable {
         this.results = results;
     }
 
-    public void addResult() {
-        transaction = session.beginTransaction();
-        session.save(newResult);
-        transaction.commit();
+    public String addResult() {
+        try {
+            transaction.begin();
+            newResult.checkHit();
+            session.save(newResult);
+//        entityManager.persist(newResult);
+            transaction.commit();
+            newResult = new Result();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return "update";
     }
 
-    public void eraseResults() {
-        transaction = session.beginTransaction();
-        session.flush();
-        transaction.commit();
+    public String eraseResults() {
+        try {
+            transaction.begin();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return "update";
     }
 }

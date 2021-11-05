@@ -4,23 +4,23 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="RESULT_TBL")
+@Table(name = "RESULT_TBL")
 public class Result implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name="RESULT_ID")
-    private long id;
-    @Column(name="RESULT_X")
+    @Column(name = "RESULT_ID")
+    private int id;
+    @Column(name = "RESULT_X")
     private Double x;
-    @Column(name="RESULT_Y")
+    @Column(name = "RESULT_Y")
     private Double y;
-    @Column(name="RESULT_R")
+    @Column(name = "RESULT_R")
     private Double r;
-    @Column(name="RESULT_CUR")
+    @Column(name = "RESULT_CUR")
     private String currTime;
-    @Column(name="RESULT_EXE")
+    @Column(name = "RESULT_EXE")
     private Double executionTime;
-    @Column(name="RESULT_HIT")
+    @Column(name = "RESULT_HIT")
     private Boolean hit;
 
     public Result() {
@@ -73,6 +73,22 @@ public class Result implements Serializable {
 
     public void setHit(boolean hit) {
         this.hit = hit;
+    }
+
+    public boolean checkFirstSector(double x, double y, double r) {
+        return x <= 0 && y >= 0 && Math.abs(x) <= r / 2 && y <= r;
+    }
+
+    public boolean checkSecondSector(double x, double y, double r) {
+        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r;
+    }
+
+    public boolean checkThirdSector(double x, double y, double r) {
+        return x >= 0 && y <= 0 && x <= r / 2 && y <= r / 2;
+    }
+
+    public void checkHit() {
+        setHit(checkFirstSector(x, y, r) || checkSecondSector(x, y, r) || checkThirdSector(x, y, r));
     }
 
     @Override

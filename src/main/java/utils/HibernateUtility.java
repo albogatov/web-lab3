@@ -9,7 +9,7 @@ public class HibernateUtility {
     public static SessionFactory getSessionFactory() {
         SessionFactory sf  = null;
         try {
-            Configuration configuration = new Configuration();
+            Configuration configuration = new Configuration().configure();
             configuration.addAnnotatedClass(Result.class);
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties());
