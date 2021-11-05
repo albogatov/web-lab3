@@ -13,8 +13,8 @@
     <h:outputScript library="js" name="jquery-3.6.0.min.js"/>
     <h:outputScript library="js" name="main.js"/>
     <h:outputScript library="js" name="jquery.svg.js"/>
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <link rel="stylesheet" type="text/css" href="css/jquery.svg.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/css/jquery.svg.css"/>
 </h:head>
 <h:body>
 <table id="grid" width="100%">
@@ -95,11 +95,11 @@
             </h:form>
         </td>
         <td width="10%" id="request-cell" class="request-button-table">
-            <form method="post" action="/Lab2-1.0-SNAPSHOT">
+            <h:form method="post" action="/Lab2-1.0-SNAPSHOT">
                 <p:commandButton type="button" value="Clean table" actionListener="#{resultBean.eraseResults}"/>
 <!--                <input type="submit" class="input-button" id="clean-button" value="Clean table"/>-->
                 <input type="hidden" value="" name="clean-indicator" id="c-id"/>
-            </form>
+            </h:form>
         </td>
     </tr>
     <tr>

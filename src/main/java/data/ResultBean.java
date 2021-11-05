@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import utils.HibernateUtility;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,34 +14,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean
-@SessionScoped
 public class ResultBean implements Serializable {
     private Result newResult = new Result();
 
     private List<Result> results = new ArrayList<Result>();
 
-    private Session session = null;
-    private Transaction transaction = null;
+    private SessionFactory hibernateSessionFactory;
+    private Session session;
+    private Transaction transaction;
 
     public ResultBean() {
         newResult = new Result();
         results = new ArrayList<Result>();
-        startSession();
-    }
-
-    private void startSession() {
-        SessionFactory sf  = null;
-        try {
-            Configuration configuration = new Configuration();
-            configuration.addAnnotatedClass(Result.class);
-            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-                    .applySettings(configuration.getProperties());
-            sf = configuration.buildSessionFactory(builder.build());
-            session = sf.openSession();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+        hibernateSessionFactory = HibernateUtility.getSessionFactory();
+        session = hibernateSessionFactory.openSession();
     }
 
     public Result getNewResult() {
