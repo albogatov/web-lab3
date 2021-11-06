@@ -26,24 +26,29 @@ public class ResultBean implements Serializable {
     private Transaction transaction;
 
     public ResultBean() {
-        newResult = new Result();
+        System.out.println("INIT");
+        newResult = new Result(0,0,0);
         results = new ArrayList<Result>();
         hibernateSessionFactory = HibernateUtility.getSessionFactory();
         session = hibernateSessionFactory.openSession();
         transaction = session.getTransaction();
         loadResults();
+        session.close();
     }
 
     public void loadResults() {
         try {
+            session = hibernateSessionFactory.openSession();
             transaction.begin();
             results = (ArrayList<Result>) session.createSQLQuery("SELECT * FROM RESULT_TBL").addEntity(Result.class).list();
             transaction.commit();
+            session.close();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
+            session.close();
         }
     }
 
@@ -65,30 +70,56 @@ public class ResultBean implements Serializable {
 
     public String addResult() {
         try {
+            session = hibernateSessionFactory.openSession();
             transaction.begin();
             newResult.checkHit();
             session.save(newResult);
 //        entityManager.persist(newResult);
             transaction.commit();
             newResult = new Result();
+            session.close();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
+            session.close();
         }
         return "update";
     }
 
-    public String eraseResults() {
+    public void deleteResult(Result result) {
         try {
+            session = hibernateSessionFactory.openSession();
             transaction.begin();
+            session.delete(result);
             transaction.commit();
+            session.close();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
+            session.close();
+        }
+    }
+
+    public String eraseResults() {
+        try {
+            session = hibernateSessionFactory.openSession();
+            transaction.begin();
+            List<Result> toDelete = (ArrayList<Result>) session.createSQLQuery("SELECT * FROM RESULT_TBL").addEntity(Result.class).list();
+            for (Result erased : toDelete) {
+                deleteResult(erased);
+            }
+            transaction.commit();
+            session.close();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            session.close();
         }
         return "update";
     }

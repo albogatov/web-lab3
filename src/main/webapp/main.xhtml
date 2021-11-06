@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 <!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
@@ -12,8 +13,11 @@
     <h:outputScript library="js" name="jquery-3.6.0.min.js"/>
     <h:outputScript library="js" name="main.js"/>
     <h:outputScript library="js" name="jquery.svg.js"/>
-    <link rel="stylesheet" type="text/css" href="resources/css/main.css"/>
-    <link rel="stylesheet" type="text/css" href="resources/css/jquery.svg.css"/>
+    <h:outputStylesheet library="css" name="main.css" target="head"/>
+    <h:outputStylesheet library="css" name="graph.css" target="head"/>
+    <h:outputStylesheet library="css" name="jquery.svg.css" target="head"/>
+<!--    <link rel="stylesheet" type="text/css" href="resources/css/main.css"/>-->
+<!--    <link rel="stylesheet" type="text/css" href="resources/css/"/>-->
 </h:head>
 <h:body>
 <table id="grid" width="100%">
@@ -47,7 +51,7 @@
                             <fieldset id="y-field">
                                 <h:outputLabel for="y" value="Input Y value"/>
                                 <h:inputText maxlength="10" size="22" type="text" id="y" name="y"
-                                       placeholder="Y must be in the range of (-3;3)" value="#{resultBean.newResult.y}"/><br/>
+                                       a:placeholder="Y must be in the range of (-3;3)" value="#{resultBean.newResult.y}"/><br/>
                             </fieldset>
                         </td>
                     </tr>
