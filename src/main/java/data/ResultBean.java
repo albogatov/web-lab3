@@ -12,7 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -24,10 +26,11 @@ public class ResultBean implements Serializable {
     private SessionFactory hibernateSessionFactory;
     private Session session;
     private Transaction transaction;
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 
     public ResultBean() {
         System.out.println("INIT");
-        newResult = new Result(0,0,0);
+        newResult = new Result(0,0,1);
         results = new ArrayList<Result>();
         hibernateSessionFactory = HibernateUtility.getSessionFactory();
         session = hibernateSessionFactory.openSession();
@@ -69,15 +72,24 @@ public class ResultBean implements Serializable {
     }
 
     public String addResult() {
+        System.out.println("CALLED");
         try {
+            long begin = System.nanoTime();
+            String currentTime = formatter.format(new Date(System.currentTimeMillis()));
             session = hibernateSessionFactory.openSession();
             transaction.begin();
+            newResult.setCurrTime(currentTime);
             newResult.checkHit();
+            double exeTime = (System.nanoTime() - begin) * Math.pow(10, -9);
+            newResult.setExecutionTime(exeTime);
+            results.add(newResult);
             session.save(newResult);
 //        entityManager.persist(newResult);
             transaction.commit();
-            newResult = new Result();
+            newResult = new Result(0,0,1);
             session.close();
+            System.out.println("success?");
+            System.out.println(results.get(0).toString());
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -108,6 +120,7 @@ public class ResultBean implements Serializable {
         try {
             session = hibernateSessionFactory.openSession();
             transaction.begin();
+            results.clear();
             List<Result> toDelete = (ArrayList<Result>) session.createSQLQuery("SELECT * FROM RESULT_TBL").addEntity(Result.class).list();
             for (Result erased : toDelete) {
                 deleteResult(erased);

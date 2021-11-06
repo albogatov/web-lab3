@@ -9,7 +9,8 @@ $(function () {
     }
 
     function validateX() {
-        if ($("#x").val() || $("#x-hid").val()) {
+        alert($("input[name=\"newEntryForm:X_field_input\"]").attr("aria-valuenow"));
+        if ($("input[name=\"newEntryForm:X_field_input\"]").attr("aria-valuenow") || $("#x-hid").val()) {
             return true;
         } else {
             $("#error-info").text("Select an X value!")
@@ -22,7 +23,7 @@ $(function () {
         const Y_MIN = -3;
         const Y_MAX = 3;
 
-        let y = $('#y').val().replace(',', '.');
+        let y = $('.y-field').val().replace(',', '.');
 
         if (!y.isEmptyObject && validateNumber(y) && (y > Y_MIN) && (y < Y_MAX)) {
             return true;
@@ -35,7 +36,7 @@ $(function () {
     }
 
     function validateR() {
-        if ($("[name-r]").html()) {
+        if (r) {
             return true;
         } else {
             $("#error-info").text("Select one R value!")
@@ -48,9 +49,10 @@ $(function () {
     }
 
     $("#send").on("click", function (event) {
-        if (!validateForm()) {
+        if (!validateX()) {
             event.preventDefault();
         } else {
+            alert("true");
             $("#true-r").val(r);
         }
     });
@@ -60,10 +62,11 @@ $(function () {
     });
 
     $("#graph-svg").on("click", function (event) {
+        $("#true-r").val(r);
         if (!validateR()) return;
         let size = document.getElementById("graph-svg").getBoundingClientRect().width;
         let snippet = (size - size / 12) / 2;
-        let curR = document.querySelector('input[type=checkbox][name=r]:checked').value;
+        let curR = r;
         let canvasX = (event.offsetX - snippet) / snippet * curR;
         let canvasY = (snippet - event.offsetY) / snippet * curR;
         $("#x-hid").val(canvasX);
@@ -71,8 +74,8 @@ $(function () {
         $("#send").click();
     });
 
-    $('[name=r]').change(function () {
-        let r = $(this).val();
+    $('.r-button').click(function () {
+        r = $(this).html();
         // let pointers = $("[name='pointer']");
         let curR = r;
         let initX;

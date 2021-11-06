@@ -121,6 +121,10 @@ fieldset {
   font-size: 16px;
 }
 
+.r-button {
+
+}
+
 .input-button:active {
 	background-color: #B68756;
 }

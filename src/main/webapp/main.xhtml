@@ -10,7 +10,7 @@
 <!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
     <title>Web Lab #3</title>
-    <h:outputScript library="js" name="jquery-3.6.0.min.js"/>
+<!--    <h:outputScript library="js" name="jquery-3.6.0.min.js"/>-->
     <h:outputScript library="js" name="main.js"/>
     <h:outputScript library="js" name="jquery.svg.js"/>
     <h:outputStylesheet library="css" name="main.css" target="head"/>
@@ -37,6 +37,7 @@
             <ui:include src="templates/graph.html"/>
         </td>
         <td width="40%" id="choice-cell" class="choice">
+            <h:messages layout="table"></h:messages>
             <h:form id="input-form">
                 <table>
                     <tr>
@@ -50,7 +51,7 @@
                         <td class="input-y">
                             <fieldset id="y-field">
                                 <h:outputLabel for="y" value="Input Y value"/>
-                                <h:inputText maxlength="10" size="22" type="text" id="y" name="y"
+                                <h:inputText maxlength="10" size="22" type="text" id="y" name="y" class="y-field"
                                        a:placeholder="Y must be in the range of (-3;3)" value="#{resultBean.newResult.y}"/><br/>
                             </fieldset>
                         </td>
@@ -58,8 +59,8 @@
                     <tr>
                         <td class="input-x">
                             <fieldset id="x-field">
-                                <p:outputLabel for="@next" value="Step Factor"/>
-                                <p:spinner id="x" value="#{resultBean.newResult.x}" stepFactor="-1"/>
+                                <p:outputLabel for="@next" value="Input X value"/>
+                                <p:spinner id="X_field" name="x" required="true" type="number" value="#{resultBean.newResult.x}" stepFactor="-1"/>
                             </fieldset>
                         </td>
                     </tr>
@@ -67,11 +68,11 @@
                         <td class="input-r">
                             <fieldset id="r-field">
                                 <label>Select R value</label>
-                                <p:commandLink type="button" value="1" name="r"/>
-                                <p:commandLink type="button" value="2" name="r"/>
-                                <p:commandLink type="button" value="3" name="r"/>
-                                <p:commandLink type="button" value="4" name="r"/>
-                                <p:commandLink type="button" value="5" name="r"/>
+                                <p:commandLink type="button" value="1" class="r-button"/>
+                                <p:commandLink type="button" value="2" class="r-button"/>
+                                <p:commandLink type="button" value="3" class="r-button"/>
+                                <p:commandLink type="button" value="4" class="r-button"/>
+                                <p:commandLink type="button" value="5" class="r-button"/>
                                 <h:inputHidden value="#{resultBean.newResult.r}" id="true-r"/>
                             </fieldset>
                         </td>
@@ -83,7 +84,7 @@
                                     <tr>
                                         <td colspan="1">
 <!--                                            <input id="send" class="input-button" type="submit" value="Submit"/>-->
-                                            <p:commandButton type="button" class="input-button" value="Submit" actionListener="#{result.addResult}"/>
+                                            <p:commandButton type="submit" id="send" class="input-button" value="Submit" action="#{resultBean.addResult}"/>
                                             <input type="hidden" value="" name="canvas-x" id="x-hid"/>
                                             <input type="hidden" value="" name="canvas-y" id="y-hid"/>
                                         </td>
@@ -100,7 +101,7 @@
         </td>
         <td width="10%" id="request-cell" class="request-button-table">
             <h:form>
-                <p:commandButton type="button" value="Clean table" actionListener="#{resultBean.eraseResults}"/>
+                <p:commandButton type="submit" value="Clean table" action="#{resultBean.eraseResults}"/>
 <!--                <input type="submit" class="input-button" id="clean-button" value="Clean table"/>-->
                 <input type="hidden" value="" name="clean-indicator" id="c-id"/>
             </h:form>
@@ -120,30 +121,30 @@
 <!--                </tr>-->
 <!--                </thead>-->
 <!--            </table>-->
-            <h:dataTable id="result-table" class="result-table" value="#{resultBean.results}">
+            <h:dataTable id="result-table" class="result-table" value="#{resultBean.results}" var="result">
                 <h:column>
                     <f:facet name="header">X</f:facet>
-                    <h:outputText value="#{resultBean.newResult.x}"/>
+                    <h:outputText value="#{result.x}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Y</f:facet>
-                    <h:outputText value="#{resultBean.newResult.y}"/>
+                    <h:outputText value="#{result.y}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">R</f:facet>
-                    <h:outputText value="#{resultBean.newResult.r}"/>
+                    <h:outputText value="#{result.r}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Time at execution</f:facet>
-                    <h:outputText value="#{resultBean.newResult.currTime}"/>
+                    <h:outputText value="#{result.currTime}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Execution time</f:facet>
-                    <h:outputText value="#{resultBean.newResult.executionTime}"/>
+                    <h:outputText value="#{result.executionTime}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Hit result</f:facet>
-                    <h:outputText value="#{resultBean.newResult.hit}"/>
+                    <h:outputText value="#{result.hit}"/>
                 </h:column>
             </h:dataTable>
         </td>
