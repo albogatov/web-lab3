@@ -84,7 +84,7 @@
                                     <tr>
                                         <td colspan="1">
 <!--                                            <input id="send" class="input-button" type="submit" value="Submit"/>-->
-                                            <p:commandButton type="submit" id="send" class="input-button" value="Submit" action="#{resultBean.addResult}"/>
+                                            <p:commandButton type="submit" id="send" class="input-button" value="Submit" action="#{resultBean.addResult}" update=":wrapper"/>
                                             <input type="hidden" value="" name="canvas-x" id="x-hid"/>
                                             <input type="hidden" value="" name="canvas-y" id="y-hid"/>
                                         </td>
@@ -101,7 +101,7 @@
         </td>
         <td width="10%" id="request-cell" class="request-button-table">
             <h:form>
-                <p:commandButton type="submit" value="Clean table" action="#{resultBean.eraseResults}"/>
+                <p:commandButton value="Clean table" action="#{resultBean.eraseResults}" update=":wrapper"/>
 <!--                <input type="submit" class="input-button" id="clean-button" value="Clean table"/>-->
                 <input type="hidden" value="" name="clean-indicator" id="c-id"/>
             </h:form>
@@ -121,32 +121,34 @@
 <!--                </tr>-->
 <!--                </thead>-->
 <!--            </table>-->
-            <h:dataTable id="result-table" class="result-table" value="#{resultBean.results}" var="result">
-                <h:column>
-                    <f:facet name="header">X</f:facet>
-                    <h:outputText value="#{result.x}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Y</f:facet>
-                    <h:outputText value="#{result.y}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">R</f:facet>
-                    <h:outputText value="#{result.r}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Time at execution</f:facet>
-                    <h:outputText value="#{result.currTime}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Execution time</f:facet>
-                    <h:outputText value="#{result.executionTime}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Hit result</f:facet>
-                    <h:outputText value="#{result.hit}"/>
-                </h:column>
-            </h:dataTable>
+            <h:panelGroup id="wrapper" layout="block">
+                <p:dataTable id="result-table" class="result-table" value="#{resultBean.results}" var="result">
+                    <p:column>
+                        <f:facet name="header">X</f:facet>
+                        <h:outputText value="#{result.x}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Y</f:facet>
+                        <h:outputText value="#{result.y}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">R</f:facet>
+                        <h:outputText value="#{result.r}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Time at execution</f:facet>
+                        <h:outputText value="#{result.currTime}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Execution time</f:facet>
+                        <h:outputText value="#{result.executionTime}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Hit result</f:facet>
+                        <h:outputText value="#{result.hit}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
         </td>
     </tr>
 </table>
