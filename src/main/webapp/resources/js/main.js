@@ -2,14 +2,25 @@
 
 $(function () {
 
-    let r;
+    const GRAPH_WIDTH = 360;
+    const INDENT = 30;
+
+    let graph = document.getElementById("graph-svg");
+    let rVal;
+    let xVal;
+    let yVal;
+    let size = document.getElementById("graph-svg").getBoundingClientRect().width;
+    let animationSnippet = (size - size / 6) / 2;
+    let detectionSnippet = (size - size / 12) / 2;
+    let svgns = "http://www.w3.org/2000/svg", container = document.getElementById( 'cont' );
 
     function validateNumber(number) {
         return !isNaN(parseFloat(number)) && isFinite(parseFloat(number));
     }
 
     function validateX() {
-        if ($("input[name=\"input-form:X_field_input\"]").attr("aria-valuenow") || $("#x-hid").val()) {
+        if ($("input[name=\"input-form:X_field_input\"]").attr("aria-valuenow")) {
+            xVal = $("input[name=\"input-form:X_field_input\"]").attr("aria-valuenow");
             return true;
         } else {
             $("#error-info").text("Select an X value!")
@@ -24,6 +35,7 @@ $(function () {
 
         let y = $('.y-field').val().replace(',', '.');
         if (!y.isEmptyObject && validateNumber(y) && (y > Y_MIN) && (y < Y_MAX)) {
+            yVal = y;
             return true;
         } else if ($("#y-hid").val() && $("#y-hid").val() > Y_MIN && $("#y-hid").val() < Y_MAX) {
             return true;
@@ -34,7 +46,7 @@ $(function () {
     }
 
     function validateR() {
-        if (validateNumber(r)) {
+        if (validateNumber(rVal)) {
             return true;
         } else {
             $("#error-info").text("Select one R value!")
@@ -50,23 +62,20 @@ $(function () {
         if (!validateForm()) {
             event.preventDefault();
         } else {
-            $("input[name=\"input-form:true-r\"]").val(r);
+            $("input[name=\"input-form:true-r\"]").val(rVal);
+            drawResult(xVal, yVal, rVal);
         }
     });
 
-    // $("#clean-button").on("click", function (event) {
-    //     $("#c-id").val("true");
-    // });
 
     $("#graph-svg").on("click", function (event) {
-        $("input[name=\"input-form:true-r\"]").val(r);
+        $("input[name=\"input-form:true-r\"]").val(rVal);
         if (!validateR()) return;
-        let size = document.getElementById("graph-svg").getBoundingClientRect().width;
-        let snippet = (size - size / 12) / 2;
-        let curR = r;
-        let canvasX = (event.offsetX - snippet) / snippet * curR;
+        // let size = document.getElementById("graph-svg").getBoundingClientRect().width;
+        let curR = rVal;
+        let canvasX = (event.offsetX - detectionSnippet) / detectionSnippet * curR;
         canvasX = parseFloat(canvasX.toString().substring(0,5))
-        let canvasY = (snippet - event.offsetY) / snippet * curR;
+        let canvasY = (detectionSnippet - event.offsetY) / detectionSnippet * curR;
         // $("#x-hid").val(canvasX);
         // $("#y-hid").val(canvasY);
         $("input[name=\"input-form:y\"]").val(canvasY.toString().substring(0, 5));
@@ -75,33 +84,31 @@ $(function () {
     });
 
     $('.r-button').click(function () {
-        r = $(this).html();
-        $("input[name=\"input-form:true-r\"]").val(r);
-        // let pointers = $("[name='pointer']");
-        let curR = r;
+        rVal = $(this).html();
+        $("input[name=\"input-form:true-r\"]").val(rVal);
+        let pointers = $(".pointer");
+        let curR = rVal;
         let initX;
         let initY;
         let moveX;
         let moveY;
-        let initR;
-        let hit;
-        let size = document.getElementById("graph-svg").getBoundingClientRect().width;
-        let snippet = (size - size / 6) / 2;
-        // for (let i = 0; i < pointers.length; i++) {
-        //     initX = pointers[i].dataset.x;
-        //     initY = pointers[i].dataset.y;
-        //     initR = pointers[i].dataset.r;
-        //     hit = pointers[i].dataset.hit;
-        //     moveX = size / 2 + snippet * initX / Math.abs(curR);
-        //     moveY = size / 2 - snippet * initY / Math.abs(curR);
-        //     if (calculateHit(initX, initY, curR)) {
-        //         pointers[i].style.fill = "#a4cc84";
-        //     } else pointers[i].style.fill = "#cca484";
-        //     $(pointers[i]).animate({
-        //         cx: moveX,
-        //         cy: moveY
-        //     }, {duration: 500, queue: false});
-        // }
+        // let initR;
+        // let hit;
+        for (let i = 0; i < pointers.length; i++) {
+            initX = pointers[i].dataset.x;
+            initY = pointers[i].dataset.y;
+            // initR = pointers[i].dataset.r;
+            // hit = pointers[i].dataset.hit;
+            moveX = size / 2 + animationSnippet * initX / Math.abs(curR);
+            moveY = size / 2 - animationSnippet * initY / Math.abs(curR);
+            if (calculateHit(initX, initY, curR)) {
+                pointers[i].style.fill = "#a4cc84";
+            } else pointers[i].style.fill = "#cca484";
+            $(pointers[i]).animate({
+                cx: moveX,
+                cy: moveY
+            }, {duration: 500, queue: false});
+        }
     });
 
     function calculateHit(x, y, r) {
@@ -120,4 +127,31 @@ $(function () {
         return y <= 0 && x <= 0 && Math.abs(x) <= r && Math.abs(y) <= r;
     }
 
+    // function drawResults() {
+    //     let data = Array();
+    //     $(".result-table tr").each(function(i, v){
+    //         data[i] = Array();
+    //         $(this).children('td').each(function(ii, vv){
+    //             data[i][ii] = $(this).text();
+    //         });
+    //     })
+    //     alert(data.toString());
+    //     for(let i = 0; i < data.length; i++) {
+    //         let circle = document.createElementNS(svgns, 'circle');
+    //         circle.setAttributeNS(null, 'cx', x);
+    //         circle.setAttributeNS(null, 'cy', y);
+    //         circle.setAttributeNS(null, 'r', 50);
+    //     }
+    // }
+
+    function drawResult(x, y, r) {
+        let circle = document.createElementNS(svgns, 'circle');
+        circle.setAttributeNS(null, 'cx', (GRAPH_WIDTH/2+(GRAPH_WIDTH/2-INDENT)*x/Math.abs(r)).toString());
+        circle.setAttributeNS(null, 'cy', (GRAPH_WIDTH/2-(GRAPH_WIDTH/2-INDENT)*y/Math.abs(r)).toString());
+        circle.setAttributeNS(null, 'r', (5).toString());
+        circle.setAttribute('data-x', x);
+        circle.setAttribute('data-y', x);
+        circle.classList.add("pointer");
+        graph.appendChild(circle);
+    }
 });
