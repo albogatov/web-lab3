@@ -9,8 +9,7 @@ $(function () {
     }
 
     function validateX() {
-        alert($("input[name=\"newEntryForm:X_field_input\"]").attr("aria-valuenow"));
-        if ($("input[name=\"newEntryForm:X_field_input\"]").attr("aria-valuenow") || $("#x-hid").val()) {
+        if ($("input[name=\"input-form:X_field_input\"]").attr("aria-valuenow") || $("#x-hid").val()) {
             return true;
         } else {
             $("#error-info").text("Select an X value!")
@@ -24,7 +23,6 @@ $(function () {
         const Y_MAX = 3;
 
         let y = $('.y-field').val().replace(',', '.');
-
         if (!y.isEmptyObject && validateNumber(y) && (y > Y_MIN) && (y < Y_MAX)) {
             return true;
         } else if ($("#y-hid").val() && $("#y-hid").val() > Y_MIN && $("#y-hid").val() < Y_MAX) {
@@ -36,7 +34,7 @@ $(function () {
     }
 
     function validateR() {
-        if (r) {
+        if (validateNumber(r)) {
             return true;
         } else {
             $("#error-info").text("Select one R value!")
@@ -48,34 +46,37 @@ $(function () {
         return validateR() && validateX() && validateY();
     }
 
-    $("#send").on("click", function (event) {
-        if (!validateX()) {
+    $("button[name=\"input-form:send\"]").on("click", function (event) {
+        if (!validateForm()) {
             event.preventDefault();
         } else {
-            alert("true");
-            $("#true-r").val(r);
+            $("input[name=\"input-form:true-r\"]").val(r);
         }
     });
 
-    $("#clean-button").on("click", function (event) {
-        $("#c-id").val("true");
-    });
+    // $("#clean-button").on("click", function (event) {
+    //     $("#c-id").val("true");
+    // });
 
     $("#graph-svg").on("click", function (event) {
-        $("#true-r").val(r);
+        $("input[name=\"input-form:true-r\"]").val(r);
         if (!validateR()) return;
         let size = document.getElementById("graph-svg").getBoundingClientRect().width;
         let snippet = (size - size / 12) / 2;
         let curR = r;
         let canvasX = (event.offsetX - snippet) / snippet * curR;
+        canvasX = parseFloat(canvasX.toString().substring(0,5))
         let canvasY = (snippet - event.offsetY) / snippet * curR;
-        $("#x-hid").val(canvasX);
-        $("#y-hid").val(canvasY);
-        $("#send").click();
+        // $("#x-hid").val(canvasX);
+        // $("#y-hid").val(canvasY);
+        $("input[name=\"input-form:y\"]").val(canvasY.toString().substring(0, 5));
+        $("input[name=\"input-form:X_field_input\"]").val(canvasX);
+        $("button[name=\"input-form:send\"]").click();
     });
 
     $('.r-button').click(function () {
         r = $(this).html();
+        $("input[name=\"input-form:true-r\"]").val(r);
         // let pointers = $("[name='pointer']");
         let curR = r;
         let initX;

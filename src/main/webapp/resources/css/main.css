@@ -125,6 +125,10 @@ fieldset {
 
 }
 
+.hidden-r-input {
+
+}
+
 .input-button:active {
 	background-color: #B68756;
 }
