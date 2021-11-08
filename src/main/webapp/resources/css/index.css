@@ -1,0 +1,30 @@
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #5b504f;
+    background-color: #e0c69e;
+}
+.header {
+    background-color: #cdac8a;
+    margin: 0%;
+    padding: 0%;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+.clock-wrapper {
+    /*height: 100vh;*/
+    /*width: 100%;*/
+    background-color: #cdac8a;
+    color: #e9eb9e;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    border: 5px solid #5b504f;
+    border-radius: 5px;
+}
+
+#clock-time {
+    font-size: 45px;
+}

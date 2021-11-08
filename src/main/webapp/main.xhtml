@@ -22,14 +22,15 @@
 <h:body>
 <table id="grid" width="100%">
     <tr class="header">
-        <th class="header-cell">
+        <th class="header-cell" width="30%">
             Bogatov Aleksandr Sergeevich
         </th>
         <th class="header-cell">
             Group: P3233
         </th>
         <th class="header-cell">
-            Variant: 33673
+            Variant: 33123<br/>
+            <h:link value="Go to the main page" outcome="moveBack"></h:link>
         </th>
     </tr>
     <tr class="main-content">
@@ -122,37 +123,34 @@
 <!--                </thead>-->
 <!--            </table>-->
             <h:panelGroup id="wrapper" layout="block">
-                <p:dataTable id="result-table" class="result-table" value="#{resultBean.results}" var="result">
-                    <p:column>
+                <h:dataTable id="result-table" class="result-table" value="#{resultBean.results}" var="result" width="100%">
+                    <h:column>
                         <f:facet name="header">X</f:facet>
                         <h:outputText value="#{result.x}"/>
-                    </p:column>
-                    <p:column>
+                    </h:column>
+                    <h:column>
                         <f:facet name="header">Y</f:facet>
                         <h:outputText value="#{result.y}"/>
-                    </p:column>
-                    <p:column>
+                    </h:column>
+                    <h:column>
                         <f:facet name="header">R</f:facet>
                         <h:outputText value="#{result.r}"/>
-                    </p:column>
-                    <p:column>
+                    </h:column>
+                    <h:column>
                         <f:facet name="header">Time at execution</f:facet>
                         <h:outputText value="#{result.currTime}"/>
-                    </p:column>
-                    <p:column>
+                    </h:column>
+                    <h:column>
                         <f:facet name="header">Execution time</f:facet>
                         <h:outputText value="#{result.executionTime}"/>
-                    </p:column>
-                    <p:column>
+                    </h:column>
+                    <h:column>
                         <f:facet name="header">Hit result</f:facet>
                         <h:outputText value="#{result.hit}"/>
-                    </p:column>
-                </p:dataTable>
+                    </h:column>
+                </h:dataTable>
             </h:panelGroup>
         </td>
-    </tr>
-    <tr>
-        <h:link value="Go to the first page" outcome="moveBack"></h:link>
     </tr>
 </table>
 </h:body>

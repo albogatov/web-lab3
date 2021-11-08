@@ -6,12 +6,11 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-    <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
     <title>Web Lab #3</title>
     <h:outputScript library="js" name="jquery-3.6.0.min.js"/>
     <h:outputScript library="js" name="jquery.svg.js"/>
-    <link rel="stylesheet" type="text/css" href="resources/css/main.css"/>
+    <h:outputScript library="js" name="index.js"/>
+    <link rel="stylesheet" type="text/css" href="resources/css/index.css"/>
     <link rel="stylesheet" type="text/css" href="resources/css/jquery.svg.css"/>
 </h:head>
 <h:body class="body">
@@ -24,12 +23,15 @@
             Group: P3233
         </th>
         <th class="header-cell">
-            Variant: 33673
+            Variant: 33123<br/>
+            <h:link value="Go to the main page" outcome="moveForward"></h:link>
         </th>
     </tr>
-    <tr>
-        <h:link value="Go to the main page" outcome="moveForward"></h:link>
-    </tr>
 </table>
+    <div class="clock-wrapper">
+        <div id="clock-date"></div>
+        <br/>
+        <div id="clock-time"></div>
+    </div>
 </h:body>
 </html>
