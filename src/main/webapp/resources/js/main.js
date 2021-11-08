@@ -4,6 +4,7 @@ $(function () {
 
     const GRAPH_WIDTH = 360;
     const INDENT = 30;
+    const R_VALS = [1, 2, 3, 4, 5];
 
     let graph = document.getElementById("graph-svg");
     let rVal;
@@ -20,7 +21,11 @@ $(function () {
     }
 
     function validateX() {
-        if ($("input[name=\"input-form:X_field_input\"]").attr("aria-valuenow")) {
+        const X_MIN = -3;
+        const X_MAX = 3;
+
+        let x = $("input[name=\"input-form:X_field_input\"]").val();
+        if (x && validateNumber(x) && (x >= X_MIN) && (x <= X_MAX)) {
             xVal = $("input[name=\"input-form:X_field_input\"]").val();
             return true;
         } else {
@@ -35,7 +40,7 @@ $(function () {
         const Y_MAX = 3;
 
         let y = $('.y-field').val().replace(',', '.');
-        if (!y.isEmptyObject && validateNumber(y) && (y > Y_MIN) && (y < Y_MAX)) {
+        if (!y.isEmptyObject && validateNumber(y) && (y >= Y_MIN) && (y <= Y_MAX)) {
             yVal = y;
             return true;
         } else if ($("#y-hid").val() && $("#y-hid").val() > Y_MIN && $("#y-hid").val() < Y_MAX) {
@@ -47,7 +52,7 @@ $(function () {
     }
 
     function validateR() {
-        if (validateNumber(rVal)) {
+        if (validateNumber(rVal) && R_VALS.includes(parseFloat(rVal))) {
             return true;
         } else {
             $("#error-info").text("Select one R value!")
@@ -85,8 +90,8 @@ $(function () {
 
     $('.r-button').click(function () {
         if(prevR) {
-            prevR.classList.toggle("r-button-chosen");
-            prevR.classList.toggle("r-button");
+            prevR.removeClass("r-button-chosen");
+            prevR.addClass("r-button");
         }
         rVal = $(this).html();
         prevR = $(this);
@@ -146,7 +151,7 @@ $(function () {
             if (data[i][0] !== "No records found" && data[i][0])
                 drawResult(data[i][0], data[i][1], rVal);
         }
-        $('#input-form\\:j_idt20').click();
+        $('#input-form\\:j_idt21').click();
     }
 
     function drawResult(x, y, r) {
@@ -157,6 +162,8 @@ $(function () {
         circle.setAttribute('data-x', x);
         circle.setAttribute('data-y', y);
         circle.classList.add("pointer");
+        if(calculateHit(x,y,r))
+            circle.style.fill = "#a4cc84";
         graph.appendChild(circle);
     }
 

@@ -9,16 +9,6 @@ public class HibernateUtility {
     private static SessionFactory sf;
 
     public static SessionFactory getSessionFactory() {
-//        try {
-//            Configuration configuration = new Configuration().configure();
-//            configuration.addAnnotatedClass(Result.class);
-//            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-//                    .applySettings(configuration.getProperties());
-//            sf = configuration.buildSessionFactory(builder.build());
-//        } catch (Throwable e) {
-//            e.printStackTrace();
-//        }
-//        return sf;
         if (sf == null) {
             try {
                 Configuration configuration = new Configuration().configure();

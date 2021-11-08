@@ -8,7 +8,6 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <title>Web Lab #3</title>
-<!--    <h:outputScript library="js" name="jquery-3.6.0.min.js"/>-->
     <h:outputScript library="js" name="main.js"/>
     <h:outputScript library="js" name="jquery.svg.js"/>
     <h:outputStylesheet library="css" name="main.css" target="head"/>
@@ -49,7 +48,11 @@
                             <fieldset id="y-field">
                                 <h:outputLabel for="y" value="Input Y value"/>
                                 <h:inputText maxlength="10" size="22" type="text" id="y" name="y" class="y-field"
-                                       a:placeholder="Y must be in the range of (-3;3)" value="#{resultBean.newResult.y}"/><br/>
+                                       a:placeholder="Y must be in the range of (-3;3)" value="#{resultBean.newResult.y}">
+                                    <f:validateRequired/>
+                                    <f:validateDoubleRange minimum="-3" maximum="3"/>
+                                </h:inputText>
+                                <br/>
                             </fieldset>
                         </td>
                     </tr>
@@ -57,7 +60,10 @@
                         <td class="input-x">
                             <fieldset id="x-field">
                                 <p:outputLabel for="@next" value="Input X value"/>
-                                <p:spinner id="X_field" name="x" required="true" type="number" value="#{resultBean.newResult.x}" stepFactor="-1"/>
+                                <p:spinner id="X_field" name="x" required="true" type="number" value="#{resultBean.newResult.x}" stepFactor="-1">
+                                    <f:validateRequired/>
+                                    <f:validateDoubleRange minimum="-3" maximum="3"/>
+                                </p:spinner>
                             </fieldset>
                         </td>
                     </tr>
@@ -70,7 +76,10 @@
                                 <p:commandLink type="button" value="3" class="r-button"/>
                                 <p:commandLink type="button" value="4" class="r-button"/>
                                 <p:commandLink type="button" value="5" class="r-button"/>
-                                <h:inputHidden value="#{resultBean.newResult.r}" id="true-r"/>
+                                <h:inputHidden value="#{resultBean.newResult.r}" id="true-r">
+                                    <f:validateRequired/>
+                                    <f:validateLongRange minimum="1" maximum="5"/>
+                                </h:inputHidden>
                             </fieldset>
                         </td>
                     </tr>
@@ -80,14 +89,10 @@
                                 <table class="comm-button-table">
                                     <tr>
                                         <td colspan="1">
-<!--                                            <input id="send" class="input-button" type="submit" value="Submit"/>-->
                                             <p:commandButton type="submit" id="send" class="input-button" value="Submit" action="#{resultBean.addResult}" update=":wrapper"/>
                                             <input type="hidden" value="" name="canvas-x" id="x-hid"/>
                                             <input type="hidden" value="" name="canvas-y" id="y-hid"/>
                                         </td>
-<!--                                        <td colspan="1">-->
-<!--                                            <input id="res" class="input-button" type="reset" value="Reset"/>-->
-<!--                                        </td>-->
                                     </tr>
                                 </table>
                             </fieldset>
@@ -99,25 +104,12 @@
         <td width="10%" id="request-cell" class="request-button-table">
             <h:form>
                 <p:commandButton value="Clean table" class="input-button" action="#{resultBean.eraseResults}" update=":wrapper" name="clean"/>
-<!--                <input type="submit" class="input-button" id="clean-button" value="Clean table"/>-->
                 <input type="hidden" value="" name="clean-indicator" id="c-id"/>
             </h:form>
         </td>
     </tr>
     <tr>
         <td colspan="3">
-<!--            <table width="100%" id="result-table" class="result-table">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th>X</th>-->
-<!--                    <th>Y</th>-->
-<!--                    <th>R</th>-->
-<!--                    <th>Current time</th>-->
-<!--                    <th>Execution time</th>-->
-<!--                    <th>Hit detect</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--            </table>-->
             <h:panelGroup id="wrapper" layout="block">
                 <h:dataTable id="result-table" class="result-table" value="#{resultBean.results}" var="result" width="100%">
                     <h:column>
