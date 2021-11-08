@@ -12,7 +12,7 @@ $(function () {
     let size = document.getElementById("graph-svg").getBoundingClientRect().width;
     let animationSnippet = (size - size / 6) / 2;
     let detectionSnippet = (size - size / 12) / 2;
-    let svgns = "http://www.w3.org/2000/svg", container = document.getElementById( 'cont' );
+    let svgns = "http://www.w3.org/2000/svg", container = document.getElementById('cont');
 
     function validateNumber(number) {
         return !isNaN(parseFloat(number)) && isFinite(parseFloat(number));
@@ -75,7 +75,7 @@ $(function () {
         // let size = document.getElementById("graph-svg").getBoundingClientRect().width;
         let curR = rVal;
         let canvasX = (event.offsetX - detectionSnippet) / detectionSnippet * curR;
-        canvasX = parseFloat(canvasX.toString().substring(0,5))
+        canvasX = parseFloat(canvasX.toString().substring(0, 5))
         let canvasY = (detectionSnippet - event.offsetY) / detectionSnippet * curR;
         // $("#x-hid").val(canvasX);
         // $("#y-hid").val(canvasY);
@@ -116,8 +116,7 @@ $(function () {
         }
     });
 
-    $('button[name=\"input-form:clean\"]').on("click",function (event) {
-        alert("CLEANING");
+    $('button[name=\"input-form:clean\"]').on("click", function (event) {
         $(".pointer").remove();
     });
 
@@ -138,11 +137,10 @@ $(function () {
     }
 
     function drawAllResults() {
-        alert("drawing all");
         let data = Array();
-        $(".result-table tr").each(function(i, v){
+        $(".result-table tr").each(function (i, v) {
             data[i] = Array();
-            $(this).children('td').each(function(ii, vv){
+            $(this).children('td').each(function (ii, vv) {
                 data[i][ii] = $(this).text();
             });
         })
@@ -153,8 +151,8 @@ $(function () {
         //         alert(data[i][j]+i);
         //     }
         // }
-        for(let i = 1; i < data.length; i++) {
-            if(data[i][0] !== "No records found" && data[i][0])
+        for (let i = 1; i < data.length; i++) {
+            if (data[i][0] !== "No records found" && data[i][0])
                 drawResult(data[i][0], data[i][1], rVal);
         }
         // $(".ui-commandlink ui-widget r-button").click();
@@ -163,8 +161,8 @@ $(function () {
 
     function drawResult(x, y, r) {
         let circle = document.createElementNS(svgns, 'circle');
-        circle.setAttributeNS(null, 'cx', GRAPH_WIDTH/2+(GRAPH_WIDTH/2-INDENT)*x/Math.abs(r));
-        circle.setAttributeNS(null, 'cy', GRAPH_WIDTH/2-(GRAPH_WIDTH/2-INDENT)*y/Math.abs(r));
+        circle.setAttributeNS(null, 'cx', GRAPH_WIDTH / 2 + (GRAPH_WIDTH / 2 - INDENT) * x / Math.abs(r));
+        circle.setAttributeNS(null, 'cy', GRAPH_WIDTH / 2 - (GRAPH_WIDTH / 2 - INDENT) * y / Math.abs(r));
         circle.setAttributeNS(null, 'r', 5);
         circle.setAttribute('data-x', x);
         circle.setAttribute('data-y', y);
