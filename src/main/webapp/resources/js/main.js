@@ -9,6 +9,7 @@ $(function () {
     let rVal;
     let xVal;
     let yVal;
+    let prevR;
     let size = document.getElementById("graph-svg").getBoundingClientRect().width;
     let animationSnippet = (size - size / 6) / 2;
     let detectionSnippet = (size - size / 12) / 2;
@@ -62,7 +63,6 @@ $(function () {
         if (!validateForm()) {
             event.preventDefault();
         } else {
-            // alert(xVal + " " + yVal + " " + rVal);
             drawResult(xVal, yVal, rVal);
             $("input[name=\"input-form:true-r\"]").val(rVal);
         }
@@ -72,24 +72,26 @@ $(function () {
     $("#graph-svg").on("click", function (event) {
         $("input[name=\"input-form:true-r\"]").val(rVal);
         if (!validateR()) return;
-        // let size = document.getElementById("graph-svg").getBoundingClientRect().width;
         let curR = rVal;
         let canvasX = (event.offsetX - detectionSnippet) / detectionSnippet * curR;
         canvasX = parseFloat(canvasX.toString().substring(0, 5))
         let canvasY = (detectionSnippet - event.offsetY) / detectionSnippet * curR;
-        // $("#x-hid").val(canvasX);
-        // $("#y-hid").val(canvasY);
-        // alert(xVal + " " + canvasX);
         xVal = canvasX;
         yVal = canvasY;
         $("input[name=\"input-form:y\"]").val(canvasY.toString().substring(0, 5));
         $("input[name=\"input-form:X_field_input\"]").val(canvasX);
-        // alert(xVal + " " + canvasX);
         $("button[name=\"input-form:send\"]").click();
     });
 
     $('.r-button').click(function () {
+        if(prevR) {
+            prevR.classList.toggle("r-button-chosen");
+            prevR.classList.toggle("r-button");
+        }
         rVal = $(this).html();
+        prevR = $(this);
+        $(this).removeClass("r-button");
+        $(this).addClass("r-button-chosen");
         $("input[name=\"input-form:true-r\"]").val(rVal);
         let pointers = $(".pointer");
         let curR = rVal;
@@ -97,13 +99,9 @@ $(function () {
         let initY;
         let moveX;
         let moveY;
-        // let initR;
-        // let hit;
         for (let i = 0; i < pointers.length; i++) {
             initX = pointers[i].dataset.x;
             initY = pointers[i].dataset.y;
-            // initR = pointers[i].dataset.r;
-            // hit = pointers[i].dataset.hit;
             moveX = size / 2 + animationSnippet * initX / Math.abs(curR);
             moveY = size / 2 - animationSnippet * initY / Math.abs(curR);
             if (calculateHit(initX, initY, curR)) {
@@ -116,7 +114,7 @@ $(function () {
         }
     });
 
-    $('button[name=\"input-form:clean\"]').on("click", function (event) {
+    $('#j_idt29\\:j_idt30').on("click", function (event) {
         $(".pointer").remove();
     });
 
@@ -125,15 +123,15 @@ $(function () {
     }
 
     function calculateSectionOne(x, y, r) {
-        return y >= 0 && x >= 0 && x <= r && Math.sqrt(x * x + y * y) <= r;
+        return x <= 0 && y >= 0 && Math.abs(x) <= r / 2 && y <= r;
     }
 
     function calculateSectionTwo(x, y, r) {
-        return y >= 0 && x <= 0 && Math.abs(x) <= r && y <= (parseFloat(x) + parseFloat(r)) && y <= r;
+        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r;
     }
 
     function calculateSectionThree(x, y, r) {
-        return y <= 0 && x <= 0 && Math.abs(x) <= r && Math.abs(y) <= r;
+        return x >= 0 && y <= 0 && x <= r / 2 && y <= r / 2;
     }
 
     function drawAllResults() {
@@ -144,18 +142,10 @@ $(function () {
                 data[i][ii] = $(this).text();
             });
         })
-        // alert(data[1][0]);
-        // alert(data.toString());
-        // for(let i = 1; i < data.length; i++) {
-        //     for(let j = 0; j < 2; j++) {
-        //         alert(data[i][j]+i);
-        //     }
-        // }
         for (let i = 1; i < data.length; i++) {
             if (data[i][0] !== "No records found" && data[i][0])
                 drawResult(data[i][0], data[i][1], rVal);
         }
-        // $(".ui-commandlink ui-widget r-button").click();
         $('#input-form\\:j_idt20').click();
     }
 

@@ -122,7 +122,39 @@ fieldset {
 }
 
 .r-button {
+    background-color: #cdac8a;
+    border: none;
+    color: #5b504f;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
 
+.r-button:hover {
+    background-color: #BF956A;
+}
+
+.r-button:active {
+    background-color: #B68756;
+}
+
+.r-button-chosen {
+    background-color: #B68756;
+    border: none;
+    color: #5b504f;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.r-button-chosen:hover {
+    background-color: #946d46;
+}
+
+.r-button-chosen:active {
+    background-color: #866641;
 }
 
 .hidden-r-input {
