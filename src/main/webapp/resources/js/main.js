@@ -20,7 +20,7 @@ $(function () {
 
     function validateX() {
         if ($("input[name=\"input-form:X_field_input\"]").attr("aria-valuenow")) {
-            xVal = $("input[name=\"input-form:X_field_input\"]").attr("aria-valuenow");
+            xVal = $("input[name=\"input-form:X_field_input\"]").val();
             return true;
         } else {
             $("#error-info").text("Select an X value!")
@@ -62,8 +62,9 @@ $(function () {
         if (!validateForm()) {
             event.preventDefault();
         } else {
-            $("input[name=\"input-form:true-r\"]").val(rVal);
+            // alert(xVal + " " + yVal + " " + rVal);
             drawResult(xVal, yVal, rVal);
+            $("input[name=\"input-form:true-r\"]").val(rVal);
         }
     });
 
@@ -78,8 +79,12 @@ $(function () {
         let canvasY = (detectionSnippet - event.offsetY) / detectionSnippet * curR;
         // $("#x-hid").val(canvasX);
         // $("#y-hid").val(canvasY);
+        // alert(xVal + " " + canvasX);
+        xVal = canvasX;
+        yVal = canvasY;
         $("input[name=\"input-form:y\"]").val(canvasY.toString().substring(0, 5));
         $("input[name=\"input-form:X_field_input\"]").val(canvasX);
+        // alert(xVal + " " + canvasX);
         $("button[name=\"input-form:send\"]").click();
     });
 
@@ -111,6 +116,11 @@ $(function () {
         }
     });
 
+    $('button[name=\"input-form:clean\"]').on("click",function (event) {
+        alert("CLEANING");
+        $(".pointer").remove();
+    });
+
     function calculateHit(x, y, r) {
         return calculateSectionOne(x, y, r) || calculateSectionTwo(x, y, r) || calculateSectionThree(x, y, r);
     }
@@ -128,6 +138,7 @@ $(function () {
     }
 
     function drawAllResults() {
+        alert("drawing all");
         let data = Array();
         $(".result-table tr").each(function(i, v){
             data[i] = Array();
@@ -135,21 +146,28 @@ $(function () {
                 data[i][ii] = $(this).text();
             });
         })
+        // alert(data[1][0]);
         // alert(data.toString());
-        for(let i = 0; i < data.length; i++) {
-            for(let j = 0; j < 2; j++) {
+        // for(let i = 1; i < data.length; i++) {
+        //     for(let j = 0; j < 2; j++) {
+        //         alert(data[i][j]+i);
+        //     }
+        // }
+        for(let i = 1; i < data.length; i++) {
+            if(data[i][0] !== "No records found" && data[i][0])
                 drawResult(data[i][0], data[i][1], rVal);
-            }
         }
+        // $(".ui-commandlink ui-widget r-button").click();
+        $('#input-form\\:j_idt20').click();
     }
 
     function drawResult(x, y, r) {
         let circle = document.createElementNS(svgns, 'circle');
-        circle.setAttributeNS(null, 'cx', (GRAPH_WIDTH/2+(GRAPH_WIDTH/2-INDENT)*x/Math.abs(r)).toString());
-        circle.setAttributeNS(null, 'cy', (GRAPH_WIDTH/2-(GRAPH_WIDTH/2-INDENT)*y/Math.abs(r)).toString());
-        circle.setAttributeNS(null, 'r', (5).toString());
+        circle.setAttributeNS(null, 'cx', GRAPH_WIDTH/2+(GRAPH_WIDTH/2-INDENT)*x/Math.abs(r));
+        circle.setAttributeNS(null, 'cy', GRAPH_WIDTH/2-(GRAPH_WIDTH/2-INDENT)*y/Math.abs(r));
+        circle.setAttributeNS(null, 'r', 5);
         circle.setAttribute('data-x', x);
-        circle.setAttribute('data-y', x);
+        circle.setAttribute('data-y', y);
         circle.classList.add("pointer");
         graph.appendChild(circle);
     }

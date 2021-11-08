@@ -68,7 +68,7 @@
                         <td class="input-r">
                             <fieldset id="r-field">
                                 <label>Select R value</label>
-                                <p:commandLink type="button" value="1" class="r-button"/>
+                                <p:commandLink type="button" value="1" name="r-default" class="r-button"/>
                                 <p:commandLink type="button" value="2" class="r-button"/>
                                 <p:commandLink type="button" value="3" class="r-button"/>
                                 <p:commandLink type="button" value="4" class="r-button"/>
@@ -101,7 +101,7 @@
         </td>
         <td width="10%" id="request-cell" class="request-button-table">
             <h:form>
-                <p:commandButton value="Clean table" action="#{resultBean.eraseResults}" update=":wrapper"/>
+                <p:commandButton value="Clean table" action="#{resultBean.eraseResults}" update=":wrapper" name="clean"/>
 <!--                <input type="submit" class="input-button" id="clean-button" value="Clean table"/>-->
                 <input type="hidden" value="" name="clean-indicator" id="c-id"/>
             </h:form>
