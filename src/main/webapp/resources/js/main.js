@@ -127,22 +127,21 @@ $(function () {
         return y <= 0 && x <= 0 && Math.abs(x) <= r && Math.abs(y) <= r;
     }
 
-    // function drawResults() {
-    //     let data = Array();
-    //     $(".result-table tr").each(function(i, v){
-    //         data[i] = Array();
-    //         $(this).children('td').each(function(ii, vv){
-    //             data[i][ii] = $(this).text();
-    //         });
-    //     })
-    //     alert(data.toString());
-    //     for(let i = 0; i < data.length; i++) {
-    //         let circle = document.createElementNS(svgns, 'circle');
-    //         circle.setAttributeNS(null, 'cx', x);
-    //         circle.setAttributeNS(null, 'cy', y);
-    //         circle.setAttributeNS(null, 'r', 50);
-    //     }
-    // }
+    function drawAllResults() {
+        let data = Array();
+        $(".result-table tr").each(function(i, v){
+            data[i] = Array();
+            $(this).children('td').each(function(ii, vv){
+                data[i][ii] = $(this).text();
+            });
+        })
+        // alert(data.toString());
+        for(let i = 0; i < data.length; i++) {
+            for(let j = 0; j < 2; j++) {
+                drawResult(data[i][0], data[i][1], rVal);
+            }
+        }
+    }
 
     function drawResult(x, y, r) {
         let circle = document.createElementNS(svgns, 'circle');
@@ -154,4 +153,6 @@ $(function () {
         circle.classList.add("pointer");
         graph.appendChild(circle);
     }
+
+    drawAllResults();
 });

@@ -34,7 +34,7 @@ public class ResultBean implements Serializable {
         results = new ArrayList<Result>();
         hibernateSessionFactory = HibernateUtility.getSessionFactory();
         session = hibernateSessionFactory.openSession();
-        transaction = session.getTransaction();
+//        transaction = session.getTransaction();
         loadResults();
         session.close();
     }
@@ -42,7 +42,7 @@ public class ResultBean implements Serializable {
     public void loadResults() {
         try {
             session = hibernateSessionFactory.openSession();
-            transaction.begin();
+            transaction = session.beginTransaction();
             results = (ArrayList<Result>) session.createSQLQuery("SELECT * FROM RESULT_TBL").addEntity(Result.class).list();
             transaction.commit();
             session.close();
@@ -77,7 +77,7 @@ public class ResultBean implements Serializable {
             long begin = System.nanoTime();
             String currentTime = formatter.format(new Date(System.currentTimeMillis()));
             session = hibernateSessionFactory.openSession();
-            transaction.begin();
+            transaction = session.beginTransaction();
             newResult.setCurrTime(currentTime);
             newResult.checkHit();
             double exeTime = (System.nanoTime() - begin) * Math.pow(10, -9);
@@ -103,7 +103,7 @@ public class ResultBean implements Serializable {
     public void deleteResult(Result result) {
         try {
             session = hibernateSessionFactory.openSession();
-            transaction.begin();
+            transaction = session.beginTransaction();
             session.delete(result);
             transaction.commit();
             session.close();
@@ -119,7 +119,7 @@ public class ResultBean implements Serializable {
     public String eraseResults() {
         try {
             session = hibernateSessionFactory.openSession();
-            transaction.begin();
+            transaction = session.beginTransaction();
             results.clear();
             List<Result> toDelete = (ArrayList<Result>) session.createSQLQuery("SELECT * FROM RESULT_TBL").addEntity(Result.class).list();
             for (Result erased : toDelete) {
