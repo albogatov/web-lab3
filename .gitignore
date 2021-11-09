@@ -1,5 +1,5 @@
 *.iml
 .idea/
-js/jquery-3.6.0.min.js
-js/jquery.svg.js
+src/main/webapp/resources/js/jquery-3.6.0.min.js
+src/main/webapp/resources/js/jquery.svg.js
 media/
