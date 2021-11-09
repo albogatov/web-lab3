@@ -11,10 +11,12 @@ $(function () {
     let xVal;
     let yVal;
     let prevR;
+    let curPoint;
     let size = document.getElementById("graph-svg").getBoundingClientRect().width;
     let animationSnippet = (size - size / 6) / 2;
-    let detectionSnippet = (size - size / 12) / 2;
     let svgns = "http://www.w3.org/2000/svg", container = document.getElementById('cont');
+
+    graph.addEventListener("click", clicked);
 
     function validateNumber(number) {
         return !isNaN(parseFloat(number)) && isFinite(parseFloat(number));
@@ -78,9 +80,12 @@ $(function () {
         $("input[name=\"input-form:true-r\"]").val(rVal);
         if (!validateR()) return;
         let curR = rVal;
-        let canvasX = (event.offsetX - detectionSnippet) / detectionSnippet * curR;
+        let canvasX = (curPoint.x - GRAPH_WIDTH / 2) * Math.abs(curR) / (GRAPH_WIDTH / 2 - INDENT);
         canvasX = parseFloat(canvasX.toString().substring(0, 5))
-        let canvasY = (detectionSnippet - event.offsetY) / detectionSnippet * curR;
+        let canvasY = (GRAPH_WIDTH / 2 - curPoint.y) * Math.abs(curR) / (GRAPH_WIDTH / 2 - INDENT);
+        // let canvasX = (event.offsetX - detectionSnippet) / detectionSnippet * curR;
+        // canvasX = parseFloat(canvasX.toString().substring(0, 5))
+        // let canvasY = (detectionSnippet - event.offsetY) / detectionSnippet * curR;
         xVal = canvasX;
         yVal = canvasY;
         $("input[name=\"input-form:y\"]").val(canvasY.toString().substring(0, 5));
@@ -152,6 +157,7 @@ $(function () {
             if (data[i][0])
                 drawResult(data[i][0], data[i][1], rVal);
         }
+        rVal = undefined;
         // $('#input-form\\:j_idt21').click();
     }
 
@@ -166,6 +172,20 @@ $(function () {
         if (calculateHit(x, y, r))
             circle.style.fill = "#a4cc84";
         graph.appendChild(circle);
+    }
+
+    function getPoint(e) {
+        let point = graph.createSVGPoint();
+        point.x = e.clientX;
+        point.y = e.clientY;
+        let ctm = graph.getScreenCTM().inverse();
+        point = point.matrixTransform(ctm);
+        return point;
+    }
+
+    function clicked(e) {
+        let m = getPoint(e);
+        curPoint = m;
     }
 
     drawAllResults();
