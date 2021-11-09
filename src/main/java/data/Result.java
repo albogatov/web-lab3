@@ -86,7 +86,7 @@ public class Result implements Serializable {
     }
 
     public boolean checkSecondSector(double x, double y, double r) {
-        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r;
+        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r*r;
     }
 
     public boolean checkThirdSector(double x, double y, double r) {

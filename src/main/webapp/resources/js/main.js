@@ -137,7 +137,7 @@ $(function () {
     }
 
     function calculateSectionTwo(x, y, r) {
-        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r;
+        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r*r;
     }
 
     function calculateSectionThree(x, y, r) {
