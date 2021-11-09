@@ -1,7 +1,7 @@
 $(function () {
     function clock() {
         let date = new Date();
-        let day = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+        let day = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         let hours = date.getHours();
         let minutes = date.getMinutes();
         let seconds = date.getSeconds();

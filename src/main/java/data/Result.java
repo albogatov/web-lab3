@@ -90,7 +90,7 @@ public class Result implements Serializable {
     }
 
     public boolean checkThirdSector(double x, double y, double r) {
-        return x >= 0 && y <= 0 && x <= r / 2 && y <= r / 2;
+        return x >= 0 && y <= 0 && x <= r / 2 && y >= (x - r / 2);
     }
 
     public void checkHit() {

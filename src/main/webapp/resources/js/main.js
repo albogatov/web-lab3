@@ -89,7 +89,7 @@ $(function () {
     });
 
     $('.r-button').click(function () {
-        if(prevR) {
+        if (prevR) {
             prevR.removeClass("r-button-chosen");
             prevR.addClass("r-button");
         }
@@ -119,7 +119,7 @@ $(function () {
         }
     });
 
-    $('#j_idt29\\:j_idt30').on("click", function (event) {
+    $('#cleaning\\:clean').on("click", function (event) {
         $(".pointer").remove();
     });
 
@@ -136,10 +136,11 @@ $(function () {
     }
 
     function calculateSectionThree(x, y, r) {
-        return x >= 0 && y <= 0 && x <= r / 2 && y <= r / 2;
+        return x >= 0 && y <= 0 && x <= r / 2 && y >= (x - r / 2);
     }
 
     function drawAllResults() {
+        rVal = 1;
         let data = Array();
         $(".result-table tr").each(function (i, v) {
             data[i] = Array();
@@ -148,10 +149,10 @@ $(function () {
             });
         })
         for (let i = 1; i < data.length; i++) {
-            if (data[i][0] !== "No records found" && data[i][0])
+            if (data[i][0])
                 drawResult(data[i][0], data[i][1], rVal);
         }
-        $('#input-form\\:j_idt21').click();
+        // $('#input-form\\:j_idt21').click();
     }
 
     function drawResult(x, y, r) {
@@ -162,7 +163,7 @@ $(function () {
         circle.setAttribute('data-x', x);
         circle.setAttribute('data-y', y);
         circle.classList.add("pointer");
-        if(calculateHit(x,y,r))
+        if (calculateHit(x, y, r))
             circle.style.fill = "#a4cc84";
         graph.appendChild(circle);
     }
