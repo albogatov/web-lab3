@@ -29,7 +29,7 @@ public class ResultBean implements Serializable {
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 
     public ResultBean() {
-        System.out.println("INIT");
+//        System.out.println("INIT");
         newResult = new Result(0,0,1);
         results = new ArrayList<Result>();
         hibernateSessionFactory = HibernateUtility.getSessionFactory();
@@ -72,7 +72,7 @@ public class ResultBean implements Serializable {
     }
 
     public String addResult() {
-        System.out.println("CALLED");
+//        System.out.println("CALLED");
         try {
             long begin = System.nanoTime();
             String currentTime = formatter.format(new Date(System.currentTimeMillis()));
@@ -88,8 +88,8 @@ public class ResultBean implements Serializable {
             transaction.commit();
             newResult = new Result(0,0,1);
             session.close();
-            System.out.println("success?");
-            System.out.println(results.get(0).toString());
+//            System.out.println("success?");
+//            System.out.println(results.get(0).toString());
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -102,11 +102,11 @@ public class ResultBean implements Serializable {
 
     public void deleteResult(Result result) {
         try {
-            session = hibernateSessionFactory.openSession();
-            transaction = session.beginTransaction();
+//            session = hibernateSessionFactory.openSession();
+//            transaction = session.beginTransaction();
             session.delete(result);
-            transaction.commit();
-            session.close();
+//            transaction.commit();
+//            session.close();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
