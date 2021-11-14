@@ -57,21 +57,33 @@ $(function () {
         if (validateNumber(rVal) && R_VALS.includes(parseFloat(rVal))) {
             return true;
         } else {
-            $("#error-info").text("Select one R value!")
+            $("#error-info").text("Select one R value!");
+            return false;
+        }
+    }
+
+    function validateDate() {
+        let valid = moment($("#input-form\\:date").val(), 'DD/MM/YYYY', true).isValid();
+        if (valid) {
+            return true;
+        } else {
+            $("#error-info").text("Date format must be DD/MM/YYYY!");
             return false;
         }
     }
 
     function validateForm() {
-        return validateR() && validateX() && validateY();
+        return validateDate() && validateR() && validateX() && validateY();
     }
 
-    $("button[name=\"input-form:send\"]").on("click", function (event) {
+    $("button[name=\"input-form:send\"]").click(function (event) {
         if (!validateForm()) {
             event.preventDefault();
+            return false;
         } else {
             drawResult(xVal, yVal, rVal);
             $("input[name=\"input-form:true-r\"]").val(rVal);
+            // $("#input-form\\:log").click();
         }
     });
 
@@ -122,6 +134,7 @@ $(function () {
                 cy: moveY
             }, {duration: 500, queue: false});
         }
+        // $("#input-form\\:log").click();
     });
 
     $('#cleaning\\:clean').on("click", function (event) {
@@ -137,7 +150,7 @@ $(function () {
     }
 
     function calculateSectionTwo(x, y, r) {
-        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r*r;
+        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r;
     }
 
     function calculateSectionThree(x, y, r) {

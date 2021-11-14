@@ -13,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ResultBean implements Serializable {
 
     public ResultBean() {
 //        System.out.println("INIT");
-        newResult = new Result(0,0,1);
+        newResult = new Result(0,0,1, null);
         results = new ArrayList<Result>();
         hibernateSessionFactory = HibernateUtility.getSessionFactory();
         session = hibernateSessionFactory.openSession();
@@ -86,7 +87,7 @@ public class ResultBean implements Serializable {
             session.save(newResult);
 //        entityManager.persist(newResult);
             transaction.commit();
-            newResult = new Result(0,0,1);
+            newResult = new Result(0,0,1,null);
             session.close();
 //            System.out.println("success?");
 //            System.out.println(results.get(0).toString());

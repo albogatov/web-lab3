@@ -2,6 +2,7 @@ package data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "RESULT_TBL")
@@ -22,15 +23,21 @@ public class Result implements Serializable {
     private Double executionTime;
     @Column(name = "RESULT_HIT")
     private Boolean hit;
+    @Column(name = "RESULT_CUSTOM_TIME")
+    private OffsetDateTime dateTime;
+
+    // 1 вопрос -  цикл обработки запроса JSF.
+    //(С конвертером) Добавить поле с типом OffsetDateTime сюда и поле в форме на клиенте, текстовое, где можно писать дату в формате день/месяц/год и сохранить в бд с типом Timestamp
 
     public Result() {
 
     }
 
-    public Result(double x, double y,  double r) {
+    public Result(double x, double y,  double r, OffsetDateTime dateTime) {
         this.x = x;
         this.y = y;
         this.r = r;
+        this.dateTime = dateTime;
     }
 
     public double getX() {
@@ -81,12 +88,20 @@ public class Result implements Serializable {
         this.hit = hit;
     }
 
+    public void setDateTime(OffsetDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public OffsetDateTime getDateTime() {
+        return dateTime;
+    }
+
     public boolean checkFirstSector(double x, double y, double r) {
         return x <= 0 && y >= 0 && Math.abs(x) <= r / 2 && y <= r;
     }
 
     public boolean checkSecondSector(double x, double y, double r) {
-        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r*r;
+        return x <= 0 && y <= 0 && Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) <= r;
     }
 
     public boolean checkThirdSector(double x, double y, double r) {

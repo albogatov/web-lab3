@@ -11,23 +11,51 @@
         <h:outputScript library="js" name="main.js"/>
         <h:outputStylesheet library="css" name="main.css" target="head"/>
         <h:outputStylesheet library="css" name="graph.css" target="head"/>
+        <h:outputScript library="js" name="moment.js"/>
     </ui:define>
     <ui:define name="link">
         <h:link value="Go to the index page" outcome="moveBack"></h:link>
     </ui:define>
     <ui:define name="tabled-content">
+        <script type="text/javascript">
+            function validateDate() {
+                let valid = moment($("#input-form\\:date").val(), 'DD/MM/YYYY', true).isValid();
+                if (valid)
+                    return true;
+                else {
+                    $("#error-info").text("Date format must be DD/MM/YYYY!");
+                    return false;
+                }
+            }
+        </script>
         <tr class="main-content">
             <td width="50%" id="graph-cell" class="graph">
                 <ui:include src="templates/graph.html"/>
             </td>
             <td width="40%" id="choice-cell" class="choice">
-                <h:messages layout="table"></h:messages>
+                <!--                <h:panelGroup id="errors">-->
+                <!--                    <p:messages for="date" style="color:red" showDetail="true" autoUpdate="true" closable="true"/>-->
+                <!--                </h:panelGroup>-->
                 <h:form id="input-form">
                     <table>
                         <tr>
                             <td>
                                 <fieldset>
                                     <p id="error-info">Enter your values or click on the graph</p>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="input-y">
+                                <fieldset id="date-field">
+                                    <h:outputLabel for="date" value="Input date"/>
+                                    <h:inputText maxlength="10" size="27" type="text" id="date" name="date"
+                                                 class="date-field"
+                                                 a:placeholder="Date must be in format DD/MM/YYYY"
+                                                 value="#{resultBean.newResult.dateTime}">
+                                        <f:converter converterId="OffsetDateConverter"/>
+                                    </h:inputText>
+                                    <br/>
                                 </fieldset>
                             </td>
                         </tr>
@@ -79,11 +107,13 @@
                                     <table class="comm-button-table">
                                         <tr>
                                             <td colspan="1">
-                                                <p:commandButton type="submit" id="send" class="input-button"
+                                                <p:commandButton onclick="return validateDate()" type="submit" id="send"
+                                                                 class="input-button"
                                                                  value="Submit" action="#{resultBean.addResult}"
                                                                  update=":wrapper"/>
                                                 <input type="hidden" value="" name="canvas-x" id="x-hid"/>
                                                 <input type="hidden" value="" name="canvas-y" id="y-hid"/>
+                                                <!--                                                <p:commandButton id="log" style="display: none" update=":errors"/>-->
                                             </td>
                                         </tr>
                                     </table>
