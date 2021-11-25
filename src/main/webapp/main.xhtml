@@ -125,7 +125,7 @@
             </td>
             <td width="10%" id="request-cell" class="request-button-table">
                 <h:form id="cleaning">
-                    <p:commandButton value="Clean table" class="input-button" action="#{resultBean.eraseResults}"
+                    <p:commandButton value="Clean table" class="input-button" action="#{resultBean.eraseResults()}"
                                      update=":wrapper" id="clean"/>
                     <!--                    <input type="hidden" value="" name="clean-indicator" id="c-id"/>-->
                 </h:form>
@@ -159,6 +159,10 @@
                         <h:column>
                             <f:facet name="header">Hit result</f:facet>
                             <h:outputText value="#{result.hit}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Custom date</f:facet>
+                            <h:outputText value="#{result.dateTime}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>

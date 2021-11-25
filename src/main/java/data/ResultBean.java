@@ -31,7 +31,7 @@ public class ResultBean implements Serializable {
 
     public ResultBean() {
 //        System.out.println("INIT");
-        newResult = new Result(0,0,1, null);
+        newResult = new Result(0,0,1, OffsetDateTime.now());
         results = new ArrayList<Result>();
         hibernateSessionFactory = HibernateUtility.getSessionFactory();
         session = hibernateSessionFactory.openSession();
@@ -87,7 +87,7 @@ public class ResultBean implements Serializable {
             session.save(newResult);
 //        entityManager.persist(newResult);
             transaction.commit();
-            newResult = new Result(0,0,1,null);
+            newResult = new Result(0,0,1,OffsetDateTime.now());
             session.close();
 //            System.out.println("success?");
 //            System.out.println(results.get(0).toString());
