@@ -25,6 +25,8 @@ public class Result implements Serializable {
     private Boolean hit;
     @Column(name = "RESULT_CUSTOM_TIME")
     private OffsetDateTime dateTime;
+    @Column(name = "RESULT_SEND_TYPE")
+    private String type;
 
     // 1 вопрос -  цикл обработки запроса JSF.
     //(С конвертером) Добавить поле с типом OffsetDateTime сюда и поле в форме на клиенте, текстовое, где можно писать дату в формате день/месяц/год и сохранить в бд с типом Timestamp
@@ -33,11 +35,12 @@ public class Result implements Serializable {
 
     }
 
-    public Result(double x, double y,  double r, OffsetDateTime dateTime) {
+    public Result(double x, double y,  double r, OffsetDateTime dateTime, String type) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.dateTime = dateTime;
+        this.type = type;
     }
 
     public double getX() {
@@ -94,6 +97,14 @@ public class Result implements Serializable {
 
     public OffsetDateTime getDateTime() {
         return dateTime;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public boolean checkFirstSector(double x, double y, double r) {

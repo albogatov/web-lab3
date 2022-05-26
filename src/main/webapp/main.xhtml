@@ -98,6 +98,8 @@
                                         <f:validateRequired/>
                                         <f:validateLongRange minimum="1" maximum="5"/>
                                     </h:inputHidden>
+                                    <h:inputHidden value="#{resultBean.newResult.type}" id="result-type">
+                                    </h:inputHidden>
                                 </fieldset>
                             </td>
                         </tr>
@@ -113,6 +115,7 @@
                                                                  update=":wrapper"/>
                                                 <input type="hidden" value="" name="canvas-x" id="x-hid"/>
                                                 <input type="hidden" value="" name="canvas-y" id="y-hid"/>
+
                                                 <!--                                                <p:commandButton id="log" style="display: none" update=":errors"/>-->
                                             </td>
                                         </tr>

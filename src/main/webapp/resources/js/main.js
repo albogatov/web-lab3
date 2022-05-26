@@ -89,6 +89,7 @@ $(function () {
 
     $("#graph-svg").on("click", function (event) {
         $("input[name=\"input-form:true-r\"]").val(rVal);
+        $("input[name=\"input-form:result-type\"]").val("fromSVG");
         if (!validateR()) return;
         let curR = rVal;
         let canvasX = (curPoint.x - GRAPH_WIDTH / 2) * Math.abs(curR) / (GRAPH_WIDTH / 2 - INDENT);
@@ -102,6 +103,7 @@ $(function () {
         $("input[name=\"input-form:y\"]").val(canvasY.toString().substring(0, 5));
         $("input[name=\"input-form:X_field_input\"]").val(canvasX);
         $("button[name=\"input-form:send\"]").click();
+        $("input[name=\"input-form:result-type\"]").val("btn");
     });
 
     $('.r-button').click(function () {
